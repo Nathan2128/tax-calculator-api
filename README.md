@@ -1,9 +1,9 @@
-Tax Calculator API
+# Tax Calculator API
 
 This is a Flask-based HTTP API built as a take-home interview assignment. 
 The API calculates the total income tax, tax breakdown per bracket, and the effective tax rate for a given annual salary and tax year. It uses Flask, flask-smorest, and marshmallow for request handling, input validation, and OpenAPI (Swagger) documentation generation.
 
-Features
+## Features
 
 * Marginal Tax Calculation:
 Calculates total tax using marginal tax rates based on provided tax brackets.
@@ -23,7 +23,7 @@ Automatically retries external API calls (up to 2 retries for HTTP 500 responses
 * Swagger UI Documentation:
 Generates interactive API documentation using flask-smorest and Swagger UI.
 
-Running the project:
+## Running the project:
 
 1. ```git clone https://github.com/<your-username>/tax-calculator-api.git```
 2.  ```cd tax-calculator-api```
