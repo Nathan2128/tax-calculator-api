@@ -6,7 +6,7 @@ class TaxCalculationInputSchema(Schema):
 
 class TaxBreakdownSchema(Schema):
     min = fields.Float(required=True)
-    max = fields.Float(allow_none=True)  # max might be omitted (infinity)
+    max = fields.Float(allow_none=True)
     rate = fields.Float(required=True)
     tax = fields.Float(required=True)
 
