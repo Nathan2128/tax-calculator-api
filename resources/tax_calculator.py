@@ -16,6 +16,13 @@ class TaxCalculator(MethodView):
         salary = args["salary"]
         tax_year = args["tax_year"]
 
+        if salary == 0:
+            return {
+                "total_tax": 0.0,
+                "effective_rate": 0.0,
+                "tax_breakdown": []
+            }
+
         tax_api_url = f"http://localhost:5001/tax-calculator/tax-year/{tax_year}"
         try:
             response = requests.get(tax_api_url)

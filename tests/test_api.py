@@ -65,3 +65,20 @@ def test_tax_calculator_api_error(monkeypatch, client):
     data = response.get_json()
     assert "message" in data
     assert data["message"] == "Error fetching tax brackets. Please try again later."
+
+def test_tax_calculator_zero_salary(monkeypatch, client):
+    salary = 0
+    def fake_requests_get_should_not_be_called(url):
+        pytest.fail(f"requests.get was called, but it shouldn't be for salary={salary}.")
+
+    
+    monkeypatch.setattr(requests, "get", fake_requests_get_should_not_be_called)
+
+    response = client.get(f"/tax_calculator/?salary={salary}&tax_year=2021")
+    data = response.get_json()
+
+    
+    assert response.status_code == 200
+    assert data["total_tax"] == 0.0
+    assert data["effective_rate"] == 0.0
+    assert data["tax_breakdown"] == []

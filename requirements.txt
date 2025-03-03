@@ -3,3 +3,4 @@ flask-smorest
 marshmallow
 requests
 pytest
+python-dotenv
