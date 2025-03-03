@@ -4,7 +4,7 @@ from flask.views import MethodView
 import requests
 
 from schemas.tax_schema import TaxCalculationInputSchema, TaxCalculationOutputSchema
-from utils import calculate_tax
+from utils import calculate_tax, get_retry_session
 
 blp = Blueprint("Tax Calculator", __name__, description="Calculate income tax based on annual salary and tax year")
 
@@ -24,8 +24,9 @@ class TaxCalculator(MethodView):
             }
 
         tax_api_url = f"http://localhost:5001/tax-calculator/tax-year/{tax_year}"
+        session = get_retry_session()
         try:
-            response = requests.get(tax_api_url)
+            response = session.get(tax_api_url)
             response.raise_for_status()
             data = response.json()
             tax_brackets = data.get("tax_brackets", [])

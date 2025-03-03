@@ -1,3 +1,7 @@
+from requests import Session
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
 def calculate_tax(salary, tax_brackets):
     total_tax = 0.0
     tax_breakdown = []
@@ -32,3 +36,15 @@ def calculate_tax(salary, tax_brackets):
         "effective_rate": effective_rate,
         "tax_breakdown": tax_breakdown
     }
+
+def get_retry_session():
+    session = Session()
+    retries = Retry(
+        total=2,
+        backoff_factor=0.3,
+        status_forcelist=[500],
+        allowed_methods=["GET"]
+    )
+    adapter = HTTPAdapter(max_retries=retries)
+    session.mount("http://", adapter)
+    return session

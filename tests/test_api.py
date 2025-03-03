@@ -29,7 +29,7 @@ def fake_requests_get_success(url):
     return FakeResponse(fake_data, 200)
 
 
-def fake_requests_get_failure(url):
+def fake_requests_get_failure(self, url, **kwargs):
     return FakeResponse({}, 500)
 
 
@@ -43,7 +43,6 @@ def test_tax_calculator_success(monkeypatch, client):
 
     monkeypatch.setattr(requests, "get", fake_requests_get_success)
 
-
     response = client.get("/tax_calculator/?salary=60000&tax_year=2021")
     assert response.status_code == 200
 
@@ -54,9 +53,8 @@ def test_tax_calculator_success(monkeypatch, client):
     assert "tax_breakdown" in data
 
 
-def test_tax_calculator_api_error(monkeypatch, client):
-
-    monkeypatch.setattr(requests, "get", fake_requests_get_failure)
+def test_error_response_after_retries(monkeypatch, client):
+    monkeypatch.setattr(requests.Session, "get", fake_requests_get_failure)
 
     response = client.get("/tax_calculator/?salary=60000&tax_year=2021")
 
